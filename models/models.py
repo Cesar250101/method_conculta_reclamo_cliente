@@ -43,7 +43,10 @@ class ModuleName(models.Model):
     
     @api.multi
     def get_dte_claim_mass(self):
-        facturas=self.env['account.invoice'].search([('journal_id','=',1),('claim_description','=',False),('sii_document_number','!=',False)])
+        facturas=self.env['account.invoice'].search([('journal_id','=',1),
+                                                     ('claim_description','=',False),
+                                                     ('sii_document_number','!=',False),
+                                                     ('state','!=','draft')])
         for f in facturas:
             tipo_dte = f.document_class_id.sii_code
             datos = f._get_datos_empresa(f.company_id)
